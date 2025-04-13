@@ -63,68 +63,6 @@ if (mysqli_num_rows($result) > 0) {
 mysqli_close($conn);
 ?>
 
-<style>
-    .form-container {
-        background-color: rgb(231, 231, 231);
-        padding: 20px;
-        border-radius: 10px;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-    
-    .form-group {
-        margin-bottom: 15px;
-    }
-    
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-    
-    .form-group input, .form-group select, .form-group textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-    
-    button[type="submit"] {
-        padding: 10px 15px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-    
-    button[type="submit"]:hover {
-        background-color: #45a049;
-    }
-    
-    .alert {
-        padding: 15px;
-        margin-bottom: 20px;
-        border-radius: 4px;
-    }
-    
-    .alert-success {
-        background-color: #dff0d8;
-        border: 1px solid #d6e9c6;
-        color: #3c763d;
-    }
-    
-    .alert-danger {
-        background-color: #f2dede;
-        border: 1px solid #ebccd1;
-        color: #a94442;
-    }
-</style>
-
-<h2 class="page-title">Edit Student</h2>
-
 <?php if ($error_message): ?>
     <div class="alert alert-danger"><?php echo $error_message; ?></div>
 <?php endif; ?>
@@ -133,25 +71,27 @@ mysqli_close($conn);
     <div class="alert alert-success"><?php echo $success_message; ?></div>
 <?php endif; ?>
 
-<form action="edit_student.php?id=<?php echo $id; ?>" method="post" class="form-container">
+<form action="edit_student.php?id=<?php echo $id; ?>" method="post" id="add-student-form" class="form-container">
+    <h2 class="page-title">Edit Student</h2>
+    
     <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" value="<?php echo $student['name']; ?>" required>
+        <label for="name">Name <span class="required_class">*</span></label>
+        <input type="text" id="name" name="name" value="<?php echo $student['name']; ?>" placeholder="Enter student name" required>
     </div>
     
     <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="<?php echo $student['email']; ?>" required>
+        <label for="email">Email<span class="required_class">*</span></label>
+        <input type="email" id="email" name="email" value="<?php echo $student['email']; ?>" placeholder="Enter email address" required>
     </div>
     
     <div class="form-group">
-        <label for="student_id">Student ID:</label>
+        <label for="student_id">Student ID<span class="required_class">*</span></label>
         <input type="text" id="student_id" name="student_id" value="<?php echo $student['student_id']; ?>" readonly>
         <small>Student ID cannot be changed</small>
     </div>
     
     <div class="form-group">
-        <label for="department">Department:</label>
+        <label for="department">Department<span class="required_class">*</span></label>
         <select id="department" name="department" required onchange="updateMajorOptions()">
             <option value="">Select Department</option>
             <option value="CSE" <?php echo ($student['department'] === 'CSE') ? 'selected' : ''; ?>>CSE</option>
@@ -160,25 +100,25 @@ mysqli_close($conn);
     </div>
     
     <div class="form-group">
-        <label for="major">Major:</label>
+        <label for="major">Major<span class="required_class">*</span></label>
         <select id="major" name="major" required>
             <option value="<?php echo $student['major']; ?>"><?php echo $student['major']; ?></option>
         </select>
     </div>
     
     <div class="form-group">
-        <label for="dob">Date of Birth:</label>
+        <label for="dob">Date of Birth<span class="required_class">*</span></label>
         <input type="date" id="dob" name="dob" value="<?php echo $student['dob']; ?>" required>
     </div>
     
     <div class="form-group">
-        <label for="address">Address:</label>
+        <label for="address">Address<span class="required_class">*</span></label>
         <textarea id="address" name="address" required><?php echo $student['address']; ?></textarea>
     </div>
     
-    <div class="form-group">
-        <button type="submit">Save Changes</button>
-        <a href="student_list.php" style="margin-left: 10px;">Cancel</a>
+    <div class="button-group" style="display: flex; gap: 10px;">
+        <button type="submit">Save Changes</button>        
+        <a href="student_list.php" class="btn" style="display: flex; justify-content: center; align-items: center; padding: 8px 16px; background-color: #f44336; color: white; text-decoration: none; border: none; border-radius: 10px; cursor: pointer; text-align: center; min-width: 100px;">Cancel</a>  
     </div>
 </form>
 
@@ -241,4 +181,3 @@ mysqli_close($conn);
         updateMajorOptions();
     });
 </script>
-
